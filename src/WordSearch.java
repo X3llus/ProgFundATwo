@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class WordSearch {
     private char[][] board;
@@ -17,7 +14,8 @@ public class WordSearch {
         List<Integer> xy = getXY();
         board = new char[xy.get(1)][xy.get(0)];
         words =  new ArrayList<>();
-        System.out.println(Arrays.toString(getBoardDimensions()));
+        makeBoard();
+        printBoard();
     }
 
     private static ArrayList<Integer> getXY() {
@@ -41,16 +39,21 @@ public class WordSearch {
         return xy;
     }
 
-    public void setBoard() {
-
+    public void makeBoard() {
+        Random rand = new Random();
+        for (char[] chars : this.board) {
+            for (int j = 0; j < chars.length; j++) {
+                chars[j] = (char) (rand.nextInt(26) + 'A');
+            }
+        }
     }
 
-    public int[] getBoardDimensions() {
-        int[] out = {
-                this.board.length,
-                this.board[0].length
-        };
-        return out;
+    public void printBoard() {
+        StringBuilder toPrint = new StringBuilder();
+        for(int i = 0; i < this.board.length; i++) {
+            toPrint.append(Arrays.toString(this.board[i]) + "\n");
+        }
+        System.out.print(String.valueOf(toPrint));
     }
 
 
