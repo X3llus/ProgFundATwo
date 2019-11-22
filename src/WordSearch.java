@@ -15,28 +15,27 @@ public class WordSearch {
      */
     public WordSearch() {
         List<Integer> xy = getXY();
-        board = new char[xy.get(0)][xy.get(1)];
+        board = new char[xy.get(1)][xy.get(0)];
         words =  new ArrayList<>();
         System.out.println(Arrays.toString(getBoardDimensions()));
     }
 
     private static ArrayList<Integer> getXY() {
-        Scanner KeyIn = new Scanner(System.in);
+        Scanner keyIn = new Scanner(System.in);
         ArrayList<Integer> xy = new ArrayList<>();
-        String[] firstSecond = {"width", "height"};
-        String eMes = "The Length/Width must be between 2 and 15";
+        String[] firstSecond = {"rows", "columns"};
         for (int i = 0; i < 2;) {
-            System.out.printf("Choose %s: ", firstSecond[i]);
+            System.out.printf("Enter the number of %s (2-15): ", firstSecond[i]);
             try {
-                int in = Integer.parseInt(KeyIn.nextLine());
+                int in = Integer.parseInt(keyIn.nextLine());
                 if (in >= 2 && in <= 15) {
                     xy.add(in);
                     i++;
                 } else {
-                    System.out.println(eMes);
+                    System.out.println("Number must be between 2 and 15");
                 }
             } catch(NumberFormatException e) {
-                System.out.println(eMes);
+                System.out.println("Only integers are allowed");
             }
         }
         return xy;
