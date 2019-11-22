@@ -50,8 +50,11 @@ public class WordSearch {
 
     public void printBoard() {
         StringBuilder toPrint = new StringBuilder();
-        for(int i = 0; i < this.board.length; i++) {
-            toPrint.append(Arrays.toString(this.board[i]) + "\n");
+        for (char[] chars : this.board) {
+            for (char aChar : chars) {
+                toPrint.append(aChar).append(" ");
+            }
+            toPrint.append("\n");
         }
         System.out.print(String.valueOf(toPrint));
     }
