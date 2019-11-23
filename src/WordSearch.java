@@ -89,8 +89,8 @@ class WordSearch {
             }
         }
     }
-
-    StringBuilder getWordSearchString() {
+    
+    String getPuzzle() throws IOException {
         StringBuilder output = new StringBuilder();
         for (char[] chars : this.board) {
             for (char aChar : chars) {
@@ -98,16 +98,14 @@ class WordSearch {
             }
             output.append("\n");
         }
-        return output;
-    }
-
-    String getWordsString() {
-        StringBuilder output = new StringBuilder();
         output.append("The words to find:\n");
         for (String word : this.words) {
             output.append(word).append("\n");
         }
 
+        BufferedWriter file = new BufferedWriter(new FileWriter("./puzzle.txt"));
+        file.write(String.valueOf(output));
+        file.close();
         return output.toString();
     }
 
@@ -117,13 +115,4 @@ class WordSearch {
         return !match.find();
 
     }
-
-    void printToFile() throws IOException {
-        String toFile = getWordSearchString() + getWordsString();
-
-        BufferedWriter file = new BufferedWriter(new FileWriter("./wordSearch.txt"));
-        file.write(toFile);
-        file.close();
-    }
-
 }

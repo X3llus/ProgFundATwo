@@ -3,8 +3,6 @@ import java.io.IOException;
 public class WordGame {
     public static void main(String[] args) throws IOException {
         WordSearch game = new WordSearch();
-        System.out.print(game.getWordSearchString());
-        System.out.print(game.getWordsString());
-        game.printToFile();
+        System.out.print(game.getPuzzle());
     }
 }
