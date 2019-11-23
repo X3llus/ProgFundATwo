@@ -1,11 +1,16 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class WordSearch {
     private char[][] board;
-    private ArrayList<String> words;
+    private List<String> words;
 
     /**
      * Constructor for my class
@@ -63,14 +68,13 @@ class WordSearch {
             }
             if (input.length() < 2 || input.length() > this.board[0].length) {
                 System.out.printf("Words must be between 2 and %d characters\n", this.board[0].length);
-            } else if (hasDigit(input)) {
+            } else if (hasNotLetter(input)) {
                 System.out.println("Letters only");
             } else if (!hasSpace) {
-                this.words.add(input);
+                this.words.add(input.toUpperCase());
                 i++;
             }
         }
-//        System.out.println(this.words);
     }
 
     private void makeBoard() {
@@ -80,31 +84,46 @@ class WordSearch {
             for (int j = 0; j < this.board[i].length; j++) {
                 this.board[i][j] = (char) (rand.nextInt(26) + 'A');
             }
-            for(int j = 0, k = rand.nextInt(this.board[0].length-this.words.get(i).length()+1); j < this.words.get(i).length(); j++, k++) {
-                this.board[i][k] = this.words.get(i).toUpperCase().charAt(j);
+            for (int j = 0, k = rand.nextInt(this.board[0].length - this.words.get(i).length() + 1); j < this.words.get(i).length(); j++, k++) {
+                this.board[i][k] = this.words.get(i).charAt(j);
             }
         }
     }
 
     StringBuilder getWordSearchString() {
-        StringBuilder toPrint = new StringBuilder();
+        StringBuilder output = new StringBuilder();
         for (char[] chars : this.board) {
             for (char aChar : chars) {
-                toPrint.append(aChar).append(" ");
+                output.append(aChar).append(" ");
             }
-            toPrint.append("\n");
+            output.append("\n");
         }
-        return toPrint;
+        return output;
     }
 
-    private boolean hasDigit(String in) {
-        String[] nums = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
-        for (String num : nums) {
-            if (in.contains(num)) {
-                return true;
-            }
+    String getWordsString() {
+        StringBuilder output = new StringBuilder();
+        output.append("The words to find:\n");
+        for (String word : this.words) {
+            output.append(word).append("\n");
         }
-        return false;
+
+        return output.toString();
+    }
+
+    private boolean hasNotLetter(String in) {
+        Pattern accepted = Pattern.compile("[a-zA-Z]");
+        Matcher match = accepted.matcher(in);
+        return !match.find();
+
+    }
+
+    void printToFile() throws IOException {
+        String toFile = getWordSearchString() + getWordsString();
+
+        BufferedWriter file = new BufferedWriter(new FileWriter("./wordSearch.txt"));
+        file.write(toFile);
+        file.close();
     }
 
 }
