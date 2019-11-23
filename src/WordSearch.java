@@ -1,6 +1,7 @@
 import java.util.*;
+import java.util.regex.Pattern;
 
-public class WordSearch {
+class WordSearch {
     private char[][] board;
     private List<String> words;
 
@@ -10,15 +11,15 @@ public class WordSearch {
      * by getting a width and height
      * than a number of words
      */
-    public WordSearch() {
+    WordSearch() {
         List<Integer> xy = getXY();
-        board = new char[xy.get(1)][xy.get(0)];
+        board = new char[xy.get(0)][xy.get(1)];
         words =  new ArrayList<>();
+        getStrings();
         makeBoard();
-        printBoard();
     }
 
-    private static ArrayList<Integer> getXY() {
+    private ArrayList<Integer> getXY() {
         Scanner keyIn = new Scanner(System.in);
         ArrayList<Integer> xy = new ArrayList<>();
         String[] firstSecond = {"rows", "columns"};
@@ -39,7 +40,38 @@ public class WordSearch {
         return xy;
     }
 
-    public void makeBoard() {
+    private void getStrings(){
+        Scanner keyIn = new Scanner(System.in);
+        String input;
+        boolean hasSpace;
+
+        for (int i = 0; i < this.board.length;) {
+            System.out.printf("Please enter a word with %d or less characters: ", this.board[0].length);
+            input = keyIn.nextLine();
+            hasSpace = false;
+
+            if (input.contains(" ")) {
+                System.out.println("Spaces are not allowed, would you like to remove spaces? (y/n)");
+
+                if (keyIn.nextLine().equalsIgnoreCase("y")) {
+                    input = input.replace(" ", "");
+                } else {
+                    hasSpace = true;
+                }
+            }
+            if (input.length() < 2 || input.length() > this.board[0].length) {
+                System.out.printf("Words must be between 2 and %d characters\n", this.board[0].length);
+            } else if (hasDigit(input)) {
+                System.out.println("Letters only");
+            } else if (!hasSpace) {
+                this.words.add(input);
+                i++;
+            }
+        }
+        System.out.println(this.words);
+    }
+
+    private void makeBoard() {
         Random rand = new Random();
         for (char[] chars : this.board) {
             for (int j = 0; j < chars.length; j++) {
@@ -48,7 +80,7 @@ public class WordSearch {
         }
     }
 
-    public void printBoard() {
+    StringBuilder getWordSearchString() {
         StringBuilder toPrint = new StringBuilder();
         for (char[] chars : this.board) {
             for (char aChar : chars) {
@@ -56,8 +88,17 @@ public class WordSearch {
             }
             toPrint.append("\n");
         }
-        System.out.print(String.valueOf(toPrint));
+        return toPrint;
     }
 
+    private boolean hasDigit(String in) {
+        String[] nums = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+        for (String num : nums) {
+            if (in.contains(num)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
