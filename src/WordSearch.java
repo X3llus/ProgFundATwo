@@ -1,9 +1,11 @@
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 class WordSearch {
     private char[][] board;
-    private List<String> words;
+    private ArrayList<String> words;
 
     /**
      * Constructor for my class
@@ -14,7 +16,7 @@ class WordSearch {
     WordSearch() {
         List<Integer> xy = getXY();
         board = new char[xy.get(0)][xy.get(1)];
-        words =  new ArrayList<>();
+        words = new ArrayList<>();
         getStrings();
         makeBoard();
     }
@@ -23,7 +25,7 @@ class WordSearch {
         Scanner keyIn = new Scanner(System.in);
         ArrayList<Integer> xy = new ArrayList<>();
         String[] firstSecond = {"rows", "columns"};
-        for (int i = 0; i < 2;) {
+        for (int i = 0; i < 2; ) {
             System.out.printf("Enter the number of %s (2-15): ", firstSecond[i]);
             try {
                 int in = Integer.parseInt(keyIn.nextLine());
@@ -33,19 +35,19 @@ class WordSearch {
                 } else {
                     System.out.println("Number must be between 2 and 15");
                 }
-            } catch(NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Only integers are allowed");
             }
         }
         return xy;
     }
 
-    private void getStrings(){
+    private void getStrings() {
         Scanner keyIn = new Scanner(System.in);
         String input;
         boolean hasSpace;
 
-        for (int i = 0; i < this.board.length;) {
+        for (int i = 0; i < this.board.length; ) {
             System.out.printf("Please enter a word with %d or less characters: ", this.board[0].length);
             input = keyIn.nextLine();
             hasSpace = false;
@@ -68,14 +70,18 @@ class WordSearch {
                 i++;
             }
         }
-        System.out.println(this.words);
+//        System.out.println(this.words);
     }
 
     private void makeBoard() {
         Random rand = new Random();
-        for (char[] chars : this.board) {
-            for (int j = 0; j < chars.length; j++) {
-                chars[j] = (char) (rand.nextInt(26) + 'A');
+
+        for (int i = 0; i < this.board.length; i++) {
+            for (int j = 0; j < this.board[i].length; j++) {
+                this.board[i][j] = (char) (rand.nextInt(26) + 'A');
+            }
+            for(int j = 0, k = rand.nextInt(this.board[0].length-this.words.get(i).length()+1); j < this.words.get(i).length(); j++, k++) {
+                this.board[i][k] = this.words.get(i).toUpperCase().charAt(j);
             }
         }
     }
