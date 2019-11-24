@@ -89,7 +89,7 @@ class WordSearch {
             }
         }
     }
-    
+
     String getPuzzle() throws IOException {
         StringBuilder output = new StringBuilder();
         for (char[] chars : this.board) {
@@ -98,6 +98,7 @@ class WordSearch {
             }
             output.append("\n");
         }
+
         output.append("The words to find:\n");
         for (String word : this.words) {
             output.append(word).append("\n");
