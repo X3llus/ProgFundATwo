@@ -26,6 +26,10 @@ class WordSearch {
         makeBoard();
     }
 
+    /**
+     * Asks the user to input the width and height
+     * @return Width and Height in a list
+     */
     private ArrayList<Integer> getXY() {
         Scanner keyIn = new Scanner(System.in);
         ArrayList<Integer> xy = new ArrayList<>();
@@ -47,6 +51,11 @@ class WordSearch {
         return xy;
     }
 
+    /**
+     * Asks the user to input a string for each row
+     * Checks the string to see if it is valid
+     * If it is not ask for a new string
+     */
     private void getStrings() {
         Scanner keyIn = new Scanner(System.in);
         String input;
@@ -77,6 +86,11 @@ class WordSearch {
         }
     }
 
+    /**
+     * Generates a random character for each column in the row
+     * Adds the word for that row into a random spot
+     * Repeat for each row
+     */
     private void makeBoard() {
         Random rand = new Random();
 
@@ -90,6 +104,12 @@ class WordSearch {
         }
     }
 
+    /**
+     * Formats all the rows of the word search
+     * Adds the words you are searching for below
+     * @return Formatted string for word search
+     * @throws IOException when file error
+     */
     String getPuzzle() throws IOException {
         StringBuilder output = new StringBuilder();
         for (char[] chars : this.board) {
@@ -110,10 +130,14 @@ class WordSearch {
         return output.toString();
     }
 
+    /**
+     * Uses regex to make a pattern and checks for the pattern in the inputted string
+     * @param in input string to look for non-letter characters
+     * @return boolean, whether a non-letter character was found
+     */
     private boolean hasNotLetter(String in) {
-        Pattern accepted = Pattern.compile("[a-zA-Z]");
+        Pattern accepted = Pattern.compile("^[a-zA-Z]*$");
         Matcher match = accepted.matcher(in);
         return !match.find();
-
     }
 }
