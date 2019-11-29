@@ -1,10 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,6 +81,7 @@ class WordSearch {
                 i++;
             }
         }
+        Collections.shuffle(this.words);
     }
 
     /**
@@ -102,6 +100,7 @@ class WordSearch {
                 this.board[i][k] = this.words.get(i).charAt(j);
             }
         }
+        Collections.sort(this.words);
     }
 
     /**
